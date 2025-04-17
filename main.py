@@ -98,6 +98,6 @@ if st.button("🔍 Prediksi"):
 st.markdown(""" 
 <hr>
 <div style='text-align: center;'>
-    <small>© 2025 - Sistem Deteksi Komentar ujaran kebencian </small>
+    <small>© 2025 - Sistem Deteksi Komentar ujaran kebencian (preprocessing sempurna)</small>
 </div>
 """, unsafe_allow_html=True)
