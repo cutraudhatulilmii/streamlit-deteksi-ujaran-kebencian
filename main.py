@@ -47,7 +47,7 @@ X_train_vectorized = vectorizer.fit_transform(X_train)
 X_test_vectorized = vectorizer.transform(X_test)
 
 # Latih model SVM dengan probabilitas
-svm_model = SVC(probability=True)  # Pastikan probability=True
+svm_model = SVC(probability=True)
 param_grid = {
     'C': [1],
     'kernel': ['linear'],
@@ -65,9 +65,8 @@ if st.button("🔍 Prediksi"):
         st.warning("⚠️ Silakan masukkan komentar terlebih dahulu.")
     else:
         teks_bersih = preprocess(stemming)
-        vektor = vectorizer.transform([teks_bersih])  # Pastikan input dalam bentuk 2D array
+        vektor = vectorizer.transform([teks_bersih])
 
-        # Perbaikan: Memastikan vektor memiliki dimensi yang benar untuk predict_proba
         if vektor.shape[0] == 1:
             prediksi = best_model.predict(vektor)[0]
 
@@ -80,24 +79,26 @@ if st.button("🔍 Prediksi"):
 
             # Prediksi probabilitas
             proba = best_model.predict_proba(vektor)[0]
-            proba_ujaran_kebencian = proba[1] * 100  # Probabilitas untuk 'ujaran kebencian'
-            proba_bukan_ujaran_kebencian = proba[0] * 100  # Probabilitas untuk 'bukan ujaran kebencian'
+            proba_ujaran_kebencian = proba[1] * 100
+            proba_bukan_ujaran_kebencian = proba[0] * 100
 
             st.markdown(f"<p>Probabilitas Ujaran Kebencian: <strong>{proba_ujaran_kebencian:.2f}%</strong></p>", unsafe_allow_html=True)
             st.markdown(f"<p>Probabilitas Bukan Ujaran Kebencian: <strong>{proba_bukan_ujaran_kebencian:.2f}%</strong></p>", unsafe_allow_html=True)
 
-            # Menampilkan akurasi model pada data uji
+            # Evaluasi model
             y_test_pred = best_model.predict(X_test_vectorized)
-            accuracy = accuracy_score(y_test, y_test_pred)
-            st.markdown(f"<p>📊 Akurasi Model pada Data Uji: {accuracy*100:.2f}%</p>", unsafe_allow_html=True)
+            accuracy = accuracy_score(y_test, y_test_pred) * 100
+            f1 = f1_score(y_test, y_test_pred, pos_label='ujaran kebencian') * 100  # dalam persen
+
+            st.markdown(f"<p>📊 Akurasi Model pada Data Uji: <strong>{accuracy:.2f}%</strong></p>", unsafe_allow_html=True)
+            st.markdown(f"<p>🎯 F1-Score Model pada Data Uji: <strong>{f1:.2f}%</strong></p>", unsafe_allow_html=True)
         else:
             st.warning("⚠️ Format input tidak sesuai. Coba lagi dengan komentar yang valid.")
-
 
 # Footer
 st.markdown(""" 
 <hr>
 <div style='text-align: center;'>
-    <small>© 2025 - Sistem Deteksi Komentar ujaran kebencian (preprocessing sempurna)</small>
+    <small>© 2025 - Sistem Deteksi Komentar Ujaran Kebencian (preprocessing sempurna)</small>
 </div>
 """, unsafe_allow_html=True)
