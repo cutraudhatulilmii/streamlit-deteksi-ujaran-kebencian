@@ -17,7 +17,7 @@ def preprocess(text):
 # Load data dari file CSV
 @st.cache_data
 def load_data():
-    df = pd.read_csv("Hasil prepocessing.csv")  # Ganti nama file jika berbeda
+    df = pd.read_csv("dataclean_svm.csv")  # Ganti nama file jika berbeda
     df = df[['stemming', 'label']]  # Pastikan kolom sesuai
     df['stemming'] = df['stemming'].astype(str).apply(preprocess)
     return df
