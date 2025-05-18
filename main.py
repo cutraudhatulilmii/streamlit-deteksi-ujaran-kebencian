@@ -17,9 +17,7 @@ def preprocess(text):
 # Load data dari file CSV
 @st.cache_data
 def load_data():
-    df = pd.read_csv("dataclean_svm.csv")  # Ganti nama file jika berbeda
-    df = df[['stemming', 'label']]  # Pastikan kolom sesuai
-    df['stemming'] = df['stemming'].astype(str).apply(preprocess)
+    df = pd.read_csv("/mnt/data/dataclean_svm.csv")  # Path sesuai dengan file yang diupload
     return df
 
 # Load dataset
@@ -30,20 +28,25 @@ except Exception as e:
     st.stop()
 
 # Input dari pengguna
-stemming = st.text_area("📝 Masukkan Komentar", height=150)
+user_input = st.text_area("📝 Masukkan Komentar", height=150)
 
-if st.button("🔍 Prediksi"):
-    if stemming.strip() == "":
+if st.button("🔍 Proses Komentar"):
+    if user_input.strip() == "":
         st.warning("⚠️ Silakan masukkan komentar terlebih dahulu.")
     else:
-        teks_bersih = preprocess(stemming)
+        teks_bersih = preprocess(user_input)
         st.success("✅ Teks berhasil diproses.")
         st.markdown(f"<p>Hasil Preprocessing: <strong>{teks_bersih}</strong></p>", unsafe_allow_html=True)
+
+# Tampilkan seluruh isi dataset
+st.markdown("<h3>📄 Seluruh Dataset</h3>", unsafe_allow_html=True)
+st.dataframe(data, use_container_width=True)
 
 # Footer
 st.markdown(""" 
 <hr>
 <div style='text-align: center;'>
-    <small>© 2025 - Sistem Deteksi Komentar Ujaran Kebencian (preprocessing saja)</small>
+    <small>© 2025 - Sistem Deteksi Komentar Ujaran Kebencian</small>
 </div>
 """, unsafe_allow_html=True)
+
