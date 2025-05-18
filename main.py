@@ -17,7 +17,7 @@ def preprocess(text):
 # Load data dari file CSV
 @st.cache_data
 def load_data():
-    df = pd.read_csv("/mnt/data/dataclean_svm.csv")  # Path sesuai dengan file yang diupload
+    df = pd.read_csv("dataclean_svm.csv")  # Path sesuai dengan file yang diupload
     return df
 
 # Load dataset
